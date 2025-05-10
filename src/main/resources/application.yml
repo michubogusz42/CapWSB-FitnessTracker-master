@@ -1,9 +1,29 @@
+# src/main/resources/application.yml
+
+# 1) Domyślna konfiguracja (dla profilu "default" i testów)
 spring:
   datasource:
-    url: "jdbc:h2:mem:testdb"
-    driver-class-name: "org.h2.Driver"
-    username: "sa"
-    password: "password"
+    url: jdbc:h2:mem:fitnessdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: false
+
+---
+
+# 2) Konfiguracja dla profilu loadInitialData
+spring:
+  config:
+    activate:
+      on-profile: loadInitialData
   h2:
     console:
       enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

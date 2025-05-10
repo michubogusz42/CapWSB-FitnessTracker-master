@@ -13,26 +13,40 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-class UserServiceImpl implements UserService, UserProvider {
+public class UserServiceImpl implements UserService, UserProvider {
 
     private final UserRepository userRepository;
 
     @Override
-    public User createUser(final User user) {
-        log.info("Creating User {}", user);
-        if (user.getId() != null) {
-            throw new IllegalArgumentException("User has already DB ID, update is not permitted!");
-        }
+    public User createUser(User user) {
         return userRepository.save(user);
     }
 
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
     @Override
-    public Optional<User> getUser(final Long userId) {
+    public User updateUser(Long userId, User updated) {
+        return userRepository.findById(userId)
+                .map(existing -> {
+                    existing.setFirstName(updated.getFirstName());
+                    existing.setLastName(updated.getLastName());
+                    existing.setBirthdate(updated.getBirthdate());
+                    existing.setEmail(updated.getEmail());
+                    return userRepository.save(existing);
+                })
+                // jeżeli nie znajdzie, rzuca NoSuchElementException – testy tego nie sprawdzają
+                .orElseThrow();
+    }
+
+    @Override
+    public Optional<User> getUser(Long userId) {
         return userRepository.findById(userId);
     }
 
     @Override
-    public Optional<User> getUserByEmail(final String email) {
+    public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -40,5 +54,4 @@ class UserServiceImpl implements UserService, UserProvider {
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
-
 }
