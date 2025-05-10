@@ -1,6 +1,7 @@
 package pl.wsb.fitnesstracker.training.api;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,7 +10,9 @@ import lombok.ToString;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 @Entity
 @Table(name = "trainings")
@@ -27,11 +30,11 @@ public class Training {
     private User user;
 
     @Column(name = "start_time", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "UTC")
+    @JsonIgnore
     private Date startTime;
 
     @Column(name = "end_time", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "UTC")
+    @JsonIgnore
     private Date endTime;
 
     @Enumerated(EnumType.ORDINAL)
@@ -60,28 +63,36 @@ public class Training {
         this.averageSpeed = averageSpeed;
     }
 
-    // ========== SETTERY DO UPDATE ==========
-    public void setUser(User user) {
-        this.user = user;
+    // SETTERY do update
+    public void setUser(User user) { this.user = user; }
+    public void setStartTime(Date startTime) { this.startTime = startTime; }
+    public void setEndTime(Date endTime) { this.endTime = endTime; }
+    public void setActivityType(ActivityType activityType) { this.activityType = activityType; }
+    public void setDistance(double distance) { this.distance = distance; }
+    public void setAverageSpeed(double averageSpeed) { this.averageSpeed = averageSpeed; }
+
+    // ========== custom JSON getters ==========
+
+    @JsonProperty("startTime")
+    public String getStartTimeIso() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String iso = sdf.format(this.startTime);
+        if (iso.endsWith("Z")) {
+            iso = iso.substring(0, iso.length() - 1) + "+00:00";
+        }
+        return iso;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public void setActivityType(ActivityType activityType) {
-        this.activityType = activityType;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
-
-    public void setAverageSpeed(double averageSpeed) {
-        this.averageSpeed = averageSpeed;
+    @JsonProperty("endTime")
+    public String getEndTimeIso() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String iso = sdf.format(this.endTime);
+        if (iso.endsWith("Z")) {
+            iso = iso.substring(0, iso.length() - 1) + "+00:00";
+        }
+        return iso;
     }
 }
+

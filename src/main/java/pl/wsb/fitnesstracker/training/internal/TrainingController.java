@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.wsb.fitnesstracker.training.api.Training;
-import pl.wsb.fitnesstracker.user.internal.UserRepository;
+import pl.wsb.fitnesstracker.user.internal.UserRepository;  // <–– tutaj
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -20,21 +20,18 @@ import java.util.stream.Collectors;
 public class TrainingController {
 
     private final TrainingRepository trainingRepository;
-    private final UserRepository userRepository;
+    private final UserRepository userRepository;  // <–– tutaj
 
-    // GET /v1/trainings
     @GetMapping
     public List<Training> getAllTrainings() {
         return trainingRepository.findAll();
     }
 
-    // GET /v1/trainings/{userId}
     @GetMapping("/{userId}")
     public List<Training> getTrainingsForUser(@PathVariable Long userId) {
         return trainingRepository.findByUserId(userId);
     }
 
-    // GET /v1/trainings/finished/{afterTime}
     @GetMapping("/finished/{afterTime}")
     public List<Training> getFinishedAfter(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate afterTime) {
@@ -44,13 +41,11 @@ public class TrainingController {
                 .collect(Collectors.toList());
     }
 
-    // GET /v1/trainings/activityType?activityType=…
     @GetMapping("/activityType")
     public List<Training> getByActivityType(@RequestParam ActivityType activityType) {
         return trainingRepository.findByActivityType(activityType);
     }
 
-    // POST /v1/trainings
     @PostMapping
     public ResponseEntity<Training> createTraining(@RequestBody TrainingCreateDto dto) {
         var user = userRepository.findById(dto.userId())
@@ -67,7 +62,6 @@ public class TrainingController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    // PUT /v1/trainings/{trainingId}
     @PutMapping("/{trainingId}")
     public ResponseEntity<Training> updateTraining(
             @PathVariable Long trainingId,

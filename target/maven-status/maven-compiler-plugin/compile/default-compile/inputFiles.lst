@@ -1,6 +1,7 @@
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/achievement/package-info.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/statistics/api/Statistics.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/exception/api/NotFoundException.java
+/Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/user/api/UserNotFoundException.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/loader/InitialDataLoader.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/mail/api/EmailSender.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/training/api/TrainingProvider.java

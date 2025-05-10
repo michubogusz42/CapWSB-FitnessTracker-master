@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserProvider;
 import pl.wsb.fitnesstracker.user.api.UserService;
+import pl.wsb.fitnesstracker.user.api.UserNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService, UserProvider {
         userRepository.deleteById(userId);
     }
 
-    @Override
+    // tutaj usuwamy @Override, bo nie ma go w żadnym interfejsie
     public User updateUser(Long userId, User updated) {
         return userRepository.findById(userId)
                 .map(existing -> {
@@ -36,8 +37,7 @@ public class UserServiceImpl implements UserService, UserProvider {
                     existing.setEmail(updated.getEmail());
                     return userRepository.save(existing);
                 })
-                // jeżeli nie znajdzie, rzuca NoSuchElementException – testy tego nie sprawdzają
-                .orElseThrow();
+                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 
     @Override
