@@ -40,7 +40,6 @@ public class User {
         this.email = email;
     }
 
-    // =========== DODANE SETTERY =============
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

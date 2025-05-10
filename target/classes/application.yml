@@ -1,6 +1,8 @@
-# src/main/resources/application.yml
+spring:
+  profiles:
+    active: loadInitialData
 
-# 1) Domyślna konfiguracja (dla profilu "default" i testów)
+---
 spring:
   datasource:
     url: jdbc:h2:mem:fitnessdb;DB_CLOSE_DELAY=-1
@@ -15,8 +17,6 @@ spring:
       enabled: false
 
 ---
-
-# 2) Konfiguracja dla profilu loadInitialData
 spring:
   config:
     activate:
@@ -27,3 +27,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+
+---
+server:
+  port: 8081
+

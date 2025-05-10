@@ -20,3 +20,28 @@ Frameworka Spring.
 11. Udostępnij prowadzącemu link do repozytorium (wrzuć link do Excela, jedna osoba z pary).
 
 Termin upływa po 7 dniach od rozpoczęciu laboratorium.
+
+Dodanie kontrolerów i DTO
+Utworzyliśmy TrainingController, TrainingCreateDto oraz analogiczne klasy dla użytkownika (UserController, UserDto, UserMapper).
+
+Repozytoria publiczne
+Zmieniliśmy UserRepository i TrainingRepository na public, żeby Spring mógł je wstrzykiwać (wcześniej dostawaliśmy błąd „cannot be accessed from outside package”).
+
+Wyjątek “not found”
+Przywróciliśmy publiczny UserNotFoundException i wrzucamy go, gdy użytkownik nie istnieje.
+
+Format dat w JSON
+Początkowo mieliśmy błąd:
+HttpMessageNotWritableException: Illegal pattern character 'x'
+Wynikał on z nieprawidłowego wzorca w @JsonFormat . Po zmianie na:
+@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+testy przestały się wywalać i daty miały dobry format +00:00.
+
+Konfiguracja profili
+Zamiast spring.profiles w application.yml użyliśmy spring.config.activate.on-profile, co usunęło błąd
+InvalidConfigDataPropertyException: Property 'spring.profiles' imported… should be replaced with 'spring.config.activate.on-profile'
+
+mvn clean test – wszystkie testy zielone.
+Testy manualne przez curl – wszystkie pozytywe.
+
+H2 Console – dobra zawartości tabel USERS i TRAININGS
