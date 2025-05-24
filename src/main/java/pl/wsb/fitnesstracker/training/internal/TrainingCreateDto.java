@@ -1,6 +1,8 @@
 package pl.wsb.fitnesstracker.training.internal;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import pl.wsb.fitnesstracker.training.api.ActivityType;
+
 import java.time.LocalDateTime;
 
 public record TrainingCreateDto(

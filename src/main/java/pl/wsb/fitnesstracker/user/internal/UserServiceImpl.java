@@ -2,15 +2,19 @@ package pl.wsb.fitnesstracker.user.internal;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import pl.wsb.fitnesstracker.user.api.User;
+import pl.wsb.fitnesstracker.user.api.UserNotFoundException;
 import pl.wsb.fitnesstracker.user.api.UserProvider;
 import pl.wsb.fitnesstracker.user.api.UserService;
-import pl.wsb.fitnesstracker.user.api.UserNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementacja logiki CRUD dla użytkowników.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,10 +28,13 @@ public class UserServiceImpl implements UserService, UserProvider {
     }
 
     public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
+        try {
+            userRepository.deleteById(userId);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new UserNotFoundException(userId);
+        }
     }
 
-    // tutaj usuwamy @Override, bo nie ma go w żadnym interfejsie
     public User updateUser(Long userId, User updated) {
         return userRepository.findById(userId)
                 .map(existing -> {
@@ -47,11 +54,23 @@ public class UserServiceImpl implements UserService, UserProvider {
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        // ten override zostaje puste, bo używamy metody fragmentowej:
+        return Optional.empty();
+    }
+
+    /**
+     * Zwraca listę użytkowników, których e-mail zawiera podany fragment (ignorując wielkość liter).
+     */
+    public List<User> searchByEmailFragment(String fragment) {
+        return userRepository.findByEmailIgnoreCaseContaining(fragment);
     }
 
     @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
+
 }
+
+
+

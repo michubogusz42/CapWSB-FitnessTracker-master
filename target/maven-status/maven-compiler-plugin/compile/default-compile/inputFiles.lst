@@ -25,6 +25,7 @@
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/livecoding/bean/MyBean.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/mail/internal/MailProperties.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/livecoding/ioc/IoC.java
+/Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/training/api/ActivityType.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/training/internal/TrainingServiceImpl.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/statistics/api/StatisticsProvider.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/exception/api/BusinessException.java
@@ -32,4 +33,3 @@
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/training/internal/TrainingCreateDto.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/training/api/Training.java
 /Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/training/api/TrainingNotFoundException.java
-/Users/michalbogusz/Documents/CapWSB-FitnessTracker-master/src/main/java/pl/wsb/fitnesstracker/training/internal/ActivityType.java

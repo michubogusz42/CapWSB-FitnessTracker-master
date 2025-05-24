@@ -9,7 +9,6 @@ pl/wsb/fitnesstracker/user/api/UserProvider.class
 pl/wsb/fitnesstracker/user/internal/UserController.class
 pl/wsb/fitnesstracker/user/internal/UserRepository.class
 pl/wsb/fitnesstracker/training/internal/TrainingCreateDto.class
-pl/wsb/fitnesstracker/training/internal/ActivityType.class
 pl/wsb/fitnesstracker/statistics/internal/package-info.class
 pl/wsb/fitnesstracker/livecoding/ioc/IoC$Bar.class
 pl/wsb/fitnesstracker/user/api/UserNotFoundException.class
@@ -34,6 +33,7 @@ pl/wsb/fitnesstracker/mail/api/EmailSender.class
 pl/wsb/fitnesstracker/statistics/api/Statistics.class
 pl/wsb/fitnesstracker/achievement/package-info.class
 pl/wsb/fitnesstracker/livecoding/ioc/WithoutIoC.class
+pl/wsb/fitnesstracker/training/api/ActivityType.class
 pl/wsb/fitnesstracker/livecoding/ioc/IoC.class
 pl/wsb/FitnessTracker.class
 pl/wsb/fitnesstracker/mail/internal/MailConfig.class

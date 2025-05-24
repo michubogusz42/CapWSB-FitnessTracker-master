@@ -10,6 +10,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * REST-owy kontroler CRUD dla użytkowników.
+ */
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
@@ -18,7 +21,6 @@ public class UserController {
     private final UserServiceImpl userService;
     private final UserMapper userMapper;
 
-    // GET /v1/users
     @GetMapping
     public List<UserDto> getAllUsers() {
         return userService.findAllUsers().stream()
@@ -26,18 +28,16 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    // GET /v1/users/simple
     @GetMapping("/simple")
     public List<UserDto> getAllSimpleUsers() {
         return userService.findAllUsers().stream()
                 .map(u -> {
-                    UserDto dto = userMapper.toDto(u);
-                    return new UserDto(null, dto.firstName(), dto.lastName(), null, null);
+                    var d = userMapper.toDto(u);
+                    return new UserDto(null, d.firstName(), d.lastName(), null, null);
                 })
                 .collect(Collectors.toList());
     }
 
-    // GET /v1/users/{id}
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         return userService.getUser(id)
@@ -46,45 +46,45 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // GET /v1/users/email?email=…
+    /**
+     * Wyszukuje po fragmencie emaila (case-insensitive).
+     *
+     * GET /v1/users/email?email=frag
+     */
     @GetMapping("/email")
-    public List<UserDto> getUserByEmail(@RequestParam String email) {
-        return userService.getUserByEmail(email)
-                .stream()
+    public List<UserDto> getUserByEmail(@RequestParam("email") String fragment) {
+        return userService.searchByEmailFragment(fragment).stream()
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    // GET /v1/users/older/{time}
-    @GetMapping("/older/{time}")
+    @GetMapping("/older/{date}")
     public List<UserDto> getUsersOlderThan(
-            @PathVariable("time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+            @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return userService.findAllUsers().stream()
                 .filter(u -> u.getBirthdate().isBefore(date))
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    // POST /v1/users
     @PostMapping
-    public ResponseEntity<Void> addUser(@RequestBody UserDto userDto) {
-        userService.createUser(userMapper.toEntity(userDto));
+    public ResponseEntity<Void> addUser(@RequestBody UserDto dto) {
+        userService.createUser(userMapper.toEntity(dto));
         return ResponseEntity.status(201).build();
     }
 
-    // PUT /v1/users/{userId}
     @PutMapping("/{userId}")
     public ResponseEntity<Void> updateUser(
             @PathVariable Long userId,
-            @RequestBody UserDto userDto) {
-        userService.updateUser(userId, userMapper.toEntity(userDto));
+            @RequestBody UserDto dto) {
+        userService.updateUser(userId, userMapper.toEntity(dto));
         return ResponseEntity.ok().build();
     }
 
-    // DELETE /v1/users/{userId}
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
 }
+
