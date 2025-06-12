@@ -1,10 +1,28 @@
 package pl.wsb.fitnesstracker.mail.internal;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+import java.util.Properties;
 
 @Configuration
-@EnableConfigurationProperties(MailProperties.class)
-class MailConfig {
+public class MailConfig {
 
+    @Bean
+    public JavaMailSender javaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");  // Wstaw odpowiedni adres serwera SMTP
+        mailSender.setPort(587);  // Ustaw port serwera SMTP
+        mailSender.setUsername("studentwrx@gmail.com");  // Wstaw swoje dane
+        mailSender.setPassword("!2#4%6&8(");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        return mailSender;
+    }
 }
