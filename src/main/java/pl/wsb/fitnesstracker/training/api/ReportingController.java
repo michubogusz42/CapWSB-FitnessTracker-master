@@ -25,8 +25,8 @@ public class ReportingController {
             @RequestParam int year) {
         TrainingReportDto report = trainingReportService.generateMonthlyReport(userId, month, year);
 
-        // Wysyłanie e-maila z raportem
-        emailSender.sendReportEmail("example@example.com", report);  // Tylko przykładowy e-mail
+
+        emailSender.sendReportEmail("example@example.com", report);
 
         return ResponseEntity.ok(report);
     }

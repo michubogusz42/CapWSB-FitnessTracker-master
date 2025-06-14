@@ -92,17 +92,14 @@ class TrainingApiIntegrationTest extends IntegrationTestBase {
 
     @Test
     void shouldDeleteTraining_whenDeletingTraining() throws Exception {
-        // Create a user and a training
         User user1 = existingUser(generateClient());
         Training training = persistTraining(generateTraining(user1));
 
-        // Perform the DELETE request to delete the training
         mockMvc.perform(delete("/v1/trainings/{trainingId}", training.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(log())
                 .andExpect(status().isNoContent()); // Expecting HTTP 204 No Content for successful deletion
 
-        // Verify the training is deleted (attempt to retrieve it)
         mockMvc.perform(get("/v1/trainings/{trainingId}", training.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound()); // Expecting HTTP 404 for not found

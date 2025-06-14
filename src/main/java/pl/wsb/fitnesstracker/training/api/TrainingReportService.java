@@ -17,9 +17,7 @@ public class TrainingReportService {
     private UserRepository userRepository;
 
     public TrainingReportDto generateMonthlyReport(Long userId, int month, int year) {
-        // Logika do pobierania i przetwarzania danych treningów
         List<Training> trainings = trainingRepository.findByUserIdAndDate(userId, month, year);
-        // Przetwórz dane do raportu
         TrainingReportDto report = new TrainingReportDto();
         report.setTotalTrainings(trainings.size());
         report.setTotalDistance(trainings.stream().mapToDouble(Training::getDistance).sum());

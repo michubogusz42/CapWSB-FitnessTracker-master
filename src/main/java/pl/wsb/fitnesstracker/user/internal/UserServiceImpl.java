@@ -54,7 +54,6 @@ public class UserServiceImpl implements UserService, UserProvider {
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-        // ten override zostaje puste, bo używamy metody fragmentowej:
         return Optional.empty();
     }
 

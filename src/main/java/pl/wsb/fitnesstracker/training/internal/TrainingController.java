@@ -40,26 +40,22 @@ public class TrainingController {
     }
 
 
-    // Get finished trainings after a specific date
     @GetMapping("/finished/{afterTime}")
     public List<Training> getFinishedAfter(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate afterTime) {
         return trainingService.findFinishedAfter(afterTime);
     }
 
-    // Get trainings by activity type
     @GetMapping("/activityType")
     public List<Training> getByActivityType(@RequestParam ActivityType activityType) {
         return trainingService.findByActivityType(activityType);
     }
 
-    // Create a new training
     @PostMapping
     public ResponseEntity<Training> createTraining(@RequestBody TrainingCreateDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(trainingService.createTraining(dto));
     }
 
-    // Update an existing training
     @PutMapping("/{trainingId}")
     public ResponseEntity<Training> updateTraining(
             @PathVariable Long trainingId,
@@ -67,16 +63,14 @@ public class TrainingController {
         return ResponseEntity.ok(trainingService.updateTraining(trainingId, dto));
     }
 
-    // Delete a training
     @DeleteMapping("/{trainingId}")
     public ResponseEntity<Void> deleteTraining(@PathVariable Long trainingId) {
         // Upewnijmy się, że trening istnieje przed próbą usunięcia
         Training existing = trainingService.findTrainingById(trainingId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Training not found"));
 
-        // Jeśli trening istnieje, wykonujemy jego usunięcie
         trainingService.deleteTraining(trainingId);
-        return ResponseEntity.noContent().build();  // Oczekujemy 204 No Content, jeśli trening został usunięty
+        return ResponseEntity.noContent().build();
     }
 
 }
